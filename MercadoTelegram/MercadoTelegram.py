@@ -8,9 +8,9 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 # --- 1. CONFIGURAÇÕES ---
-TOKEN = '8319089179:AAHNW9vBcm0Dyjd9xBk4Xam3KZzhrf_DHYo'
-CHAT_ID = '7704757217'
-ACCESS_TOKEN = "APP_USR-2915867478844145-031020-aadd7ff871de57763fd1a06fbbbf33c2-2925892095"
+TOKEN = 'SEU TOKEN CHAT BOT TELEGRAM'
+CHAT_ID = 'SEU TOKEN TELEGRAM'
+ACCESS_TOKEN = "SUA CREDENCIAL DE PRODUÇÃO MERCADO PAGO (QR CODE DINÂMICO)"
 
 sdk = mercadopago.SDK(ACCESS_TOKEN)
 app = Flask(__name__)
@@ -132,6 +132,9 @@ def registrar_convidado():
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
 
-#cmd// ngrok http 5000 // 
-#terminal// python -m venv venv // .\venv\Scripts\activate // pip install requests flask flask-cors mercadopago // 
+#COMANDOS PARA O TERMINAL
+# ngrok http 5000  
+# python -m venv venv 
+# .\venv\Scripts\activate 
+#  pip install requests flask flask-cors mercadopago 
 # python MERCADOPAGO\telegram.py
