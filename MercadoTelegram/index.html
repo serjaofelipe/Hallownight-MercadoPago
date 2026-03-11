@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento - Hallownight 2.0</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --blood-red: #ff0000;
+            --dark-red: #b30000;
+            --glow-red: rgba(255, 0, 0, 0.7);
+            --background-dark: #050202;
+            --text-light: #e0e0e0;
+            --input-bg: #1a1a1a;
+            --border-color: rgba(255, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--background-dark);
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('img.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--text-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 550px;
+            background: rgba(10, 2, 2, 0.75);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 40px 50px;
+            box-shadow: 0 0 15px var(--glow-red), inset 0 0 10px rgba(255,0,0,0.2);
+            backdrop-filter: blur(8px);
+            text-align: center;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-family: 'Creepster', cursive;
+            font-size: 5em;
+            color: var(--blood-red);
+            margin-bottom: 30px;
+            letter-spacing: 4px;
+            animation: flicker 3s infinite linear;
+        }
+
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                text-shadow:
+                    0 0 5px #fff,
+                    0 0 10px #fff,
+                    0 0 20px var(--glow-red),
+                    0 0 40px var(--glow-red),
+                    0 0 60px var(--glow-red);
+                opacity: 1;
+            }
+            20%, 24%, 55% {
+                text-shadow: none;
+                opacity: 0.8;
+            }
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #ccc;
+        }
+
+        input[type="text"], input[type="tel"] {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--input-bg);
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: var(--text-light);
+            font-size: 1.1em;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus, input[type="tel"]:focus {
+            outline: none;
+            border-color: var(--blood-red);
+            box-shadow: 0 0 10px var(--glow-red);
+        }
+
+        .error-message {
+            color: var(--blood-red);
+            font-size: 0.9em;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .companion-toggle {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--input-bg);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            margin: 30px 0;
+        }
+
+        .companion-toggle label {
+            font-size: 1.1em;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input { opacity: 0; width: 0; height: 0; }
+
+        .slider {
+            position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #333; transition: .4s; border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute; content: ""; height: 26px; width: 26px; left: 4px; bottom: 4px;
+            background-color: #777; transition: .4s; border-radius: 50%;
+        }
+
+        input:checked + .slider { background-color: var(--dark-red); }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+            background-color: var(--blood-red);
+            box-shadow: 0 0 10px var(--glow-red);
+        }
+
+        #companionSection { display: none; }
+
+        .price-display {
+            margin: 30px 0; font-size: 2.2em; font-weight: 600;
+        }
+
+        .price-display span {
+            color: var(--blood-red);
+            text-shadow: 0 0 8px var(--glow-red);
+        }
+
+        button {
+            width: 100%; padding: 18px; background: linear-gradient(45deg, var(--dark-red), var(--blood-red));
+            border: none; border-radius: 8px; color: var(--text-light); font-size: 1.4em;
+            font-weight: bold; font-family: 'Montserrat', sans-serif; cursor: pointer;
+            transition: all 0.3s ease; text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+            letter-spacing: 1px; box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        button:hover {
+            box-shadow: 0 0 20px var(--glow-red);
+            transform: translateY(-3px);
+        }
+        
+        button:disabled {
+            background: #555;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Hallownight 2.0</h1>
+        <form id="paymentForm">
+            <div class="form-group">
+                <label for="attendeeName">Seu Nome:</label>
+                <input type="text" id="attendeeName" name="attendeeName" placeholder="Digite seu nome para a lista" required>
+                <div id="nameError" class="error-message">Pelo jeito você tem um xará! Coloque um apelido ou seu sobrenome.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="attendeePhone">Seu número (para confirmação):</label>
+                <input type="tel" id="attendeePhone" name="attendeePhone" placeholder="(XX) XXXXX-XXXX" required>
+            </div>
+            <div class="companion-toggle">
+                <label for="hasCompanion">Levar Acompanhante?</label>
+                <label class="switch">
+                    <input type="checkbox" id="hasCompanion">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <div class="form-group" id="companionSection">
+                <label for="companionName">Nome do(a) Acompanhante:</label>
+                <input type="text" id="companionName" name="companionName" placeholder="Nome do(a) acompanhante">
+            </div>
+
+            <div class="price-display">
+                Valor Total: <span id="totalAmount">R$ 20,00</span>
+            </div>
+
+            <button type="submit" id="submitBtn">Prosseguir para Pagamento</button>
+        </form>
+    </div>
+
+    <script>
+    const paymentForm = document.getElementById('paymentForm');
+    const attendeeNameInput = document.getElementById('attendeeName');
+    const attendeePhoneInput = document.getElementById('attendeePhone');
+    const nameError = document.getElementById('nameError');
+    const hasCompanionCheckbox = document.getElementById('hasCompanion');
+    const companionSection = document.getElementById('companionSection');
+    const companionNameInput = document.getElementById('companionName');
+    const totalAmount = document.getElementById('totalAmount');
+    const submitBtn = document.getElementById('submitBtn');
+
+    attendeePhoneInput.addEventListener('input', (e) => {
+        let value = e.target.value.replace(/\D/g, '');
+        value = value.substring(0, 11);
+        if (value.length > 2) { value = `(${value.substring(0, 2)}) ${value.substring(2)}`; }
+        if (value.length > 9) { value = `${value.substring(0, 10)}-${value.substring(10)}`; }
+        e.target.value = value;
+    });
+
+    hasCompanionCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            companionSection.style.display = 'block';
+            companionNameInput.required = true;
+            totalAmount.textContent = 'R$ 40,00';
+        } else {
+            companionSection.style.display = 'none';
+            companionNameInput.required = false;
+            companionNameInput.value = '';
+            totalAmount.textContent = 'R$ 20,00';
+        }
+    });
+
+    paymentForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+        nameError.style.display = 'none';
+        
+        // Texto de feedback para o usuário
+        submitBtn.textContent = "Gerando PIX...";
+        submitBtn.disabled = true;
+
+        const formData = {
+            attendeeName: attendeeNameInput.value,
+            attendeePhone: attendeePhoneInput.value,
+            hasCompanion: hasCompanionCheckbox.checked,
+            companionName: companionNameInput.value
+        };
+
+        fetch('https://SEU-LINK-DO-NGROK.ngrok-free.app/registrar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData),
+        })
+        .then(response => {
+            if (response.ok) return response.json();
+            if (response.status === 409) { throw new Error('xara'); }
+            throw new Error('network_error');
+        })
+        .then(data => {
+            if (data.status === 'sucesso') {
+                // REDIRECIONAMENTO DIRETO PARA O QR CODE
+                // O Python agora envia 'qr_code_link' (o ticket do MP)
+                window.location.href = data.qr_code_link;
+            }
+        })
+        .catch(error => {
+            submitBtn.textContent = "Prosseguir para Pagamento";
+            submitBtn.disabled = false;
+            
+            if (error.message === 'xara') {
+                nameError.style.display = 'block';
+            } else {
+                alert('Erro ao gerar pagamento. Verifique se o Python está rodando e se seu Token é válido!');
+                console.error('Erro:', error);
+            }
+        });
+    });
+    </script>
